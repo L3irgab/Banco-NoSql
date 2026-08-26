@@ -1,72 +1,59 @@
-# Loja Informática - Prática MongoDB
+# Atividade MongoDB - Loja Informática
 
-Projeto prático de introdução ao **MongoDB**, com foco em operações básicas de banco de dados NoSQL: criação de banco, criação de coleção, inserção de documentos (simples e múltiplos), busca por campo, busca por `_id` e atualização de documentos.
+Atividade prática de MongoDB feita no mongosh, com criação de banco, collection e alguns comandos de insert, find e update.
 
-## 📋 Sobre o projeto
+## Pré-requisitos
 
-O objetivo desta atividade foi simular o cadastro de clientes de uma loja de informática (`loja_informatica`), utilizando o `mongosh` (shell do MongoDB) para executar os comandos diretamente.
+- MongoDB instalado
+- mongosh (shell do mongo)
 
-## 🛠️ Pré-requisitos
+## Comandos usados
 
-- [MongoDB Community Server](https://www.mongodb.com/try/download/community) instalado
-- `mongosh` (MongoDB Shell) instalado e configurado no PATH
-- (Opcional) [MongoDB Compass](https://www.mongodb.com/try/download/compass) para visualização gráfica
+Exibir os bancos de dados existentes:
 
-## ▶️ Como executar
-
-1. Inicie o serviço do MongoDB na sua máquina.
-2. Abra o terminal e digite `mongosh` para entrar no shell.
-3. Execute os comandos na ordem apresentada abaixo (ou rode o arquivo `comandos.js` completo — veja a seção [Executando o script](#-executando-o-script-completo)).
-
-## 🧭 Passo a passo dos comandos
-
-### 1. Exibir os bancos de dados existentes
-
-```js
+```
 show databases
 ```
 
-### 2. Criar (ou acessar) o banco de dados `loja_informatica`
+Criar/usar o banco de dados:
 
-```js
+```
 use loja_informatica
 ```
 
-> No MongoDB, o banco só é efetivamente criado quando o primeiro dado é gravado nele.
+Criar a collection cliente:
 
-### 3. Criar a collection `cliente`
-
-```js
+```
 db.createCollection("cliente")
 ```
 
-### 4. Listar todas as collections do banco
+Ver as collections do banco:
 
-```js
+```
 show collections
 ```
 
-### 5. Mostrar todos os documentos da collection `cliente`
+Ver os documentos da collection:
 
-```js
+```
 db.cliente.find()
 ```
 
-### 6. Inserir um documento simples
+Inserir um cliente:
 
-```js
+```
 db.cliente.insertOne({"name": "maria"})
 ```
 
-### 7. Inserir um documento com mais campos
+Inserir com mais campos:
 
-```js
+```
 db.cliente.insertOne({"name": "maria", "idade": 24})
 ```
 
-### 8. Inserir um documento com array e objeto aninhado
+Inserir com endereço e pets:
 
-```js
+```
 db.cliente.insertOne({
   "nome": "jefté",
   "idade": 35,
@@ -77,9 +64,9 @@ db.cliente.insertOne({
 })
 ```
 
-### 9. Inserir vários documentos de uma vez (`insertMany`)
+Inserir vários de uma vez:
 
-```js
+```
 db.cliente.insertMany([
   { "nome": "Brenno"},
   { "nome": "João"},
@@ -89,64 +76,33 @@ db.cliente.insertMany([
 ])
 ```
 
-### 10. Buscar um documento pelo campo `nome`
+Buscar pelo nome:
 
-```js
+```
 db.cliente.find({"nome": "José"})
 ```
 
-### 11. Buscar um documento pelo identificador único (`_id`)
+Buscar pelo id:
 
-```js
+```
 db.cliente.find({_id: ObjectId('6a7bbab007ff2cf8649f68a9')})
 ```
 
-> ⚠️ O valor do `ObjectId` é único para cada documento inserido. Substitua pelo `_id` real gerado na sua base ao testar.
+(o id muda dependendo do que foi gerado na sua base)
 
-### 12. Corrigir um dado com erro de digitação (`updateOne`)
-
-```js
-db.cliente.updateOne(
-  {"nome": "MAria"},
-  {$set: {"nome": "Maria"}}
-)
-```
-
-### 13. Adicionar um novo campo a um documento já existente
-
-```js
-db.cliente.updateOne(
-  {"nome": "Maria"},
-  {$set: {"endereco": {"logradouro": "sossego"}}}
-)
-```
-
-## 📂 Estrutura do repositório
+Corrigir o nome que tinha ficado errado (MAria -> Maria):
 
 ```
-mongodb-loja-informatica/
-├── README.md         # Este arquivo, com o passo a passo completo
-├── comandos.js        # Todos os comandos em sequência, prontos para executar
-└── .gitignore
+db.cliente.updateOne({"nome": "MAria"}, {$set: {"nome": "Maria"}})
 ```
 
-## 🚀 Executando o script completo
+Adicionar endereço na Maria:
 
-Se preferir rodar tudo de uma vez, use o arquivo `comandos.js`:
-
-```bash
-mongosh comandos.js
+```
+db.cliente.updateOne({"nome": "Maria"}, {$set: {"endereco": {"logradouro": "sossego"}}})
 ```
 
-## 🧠 Conceitos praticados
+## Arquivos do repositório
 
-- Comandos administrativos do shell (`show databases`, `use`, `show collections`)
-- Criação de collection (`createCollection`)
-- Inserção de documentos (`insertOne`, `insertMany`)
-- Consulta de documentos (`find`, busca por campo e por `_id`)
-- Atualização de documentos (`updateOne`, operador `$set`)
-- Documentos com estruturas aninhadas (arrays e objetos dentro de um documento)
-
-## ✍️ Autor
-
-Atividade prática desenvolvida como parte do estudo de bancos de dados NoSQL com MongoDB.
+- README.md - este arquivo
+- comandos.md - os mesmos comandos, só que separados
